@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        .block {
+            width: 33.3%;
+        }
+        ul {
+            list-style: none;
+        }
+        li {
+            height: 30px;
+            
+        }
+        /* li.done {
+            background: green;
+        } */
+        
+        .icon {
+            background: url('./Bitmap.png');
+            width: 19px;
+            height: 19px;
+            background-size: 172px 21px;
+            background-position: 0px -1px;
+            margin-right: 5px;
+            position: relative;
+            top: 3px;
+        }
+        .icon.zero {
+            display: inline-block;
+        }
+        .icon.p1 {
+            display: inline-block;
+            background-position: 147px -1px;
+        }
+        .icon.p2 {
+            display: inline-block;
+            background-position: 121px -1px;
+        }
+        .icon.half {
+            display: inline-block;
+            background-position: 96px -1px;
+        }
+        .icon.p4 {
+            display: inline-block;
+            background-position: 71px -1px;
+        }
+        .icon.p5 {
+            display: inline-block;
+            background-position: 45px -1px;
+        }
+        .icon.success {
+            display: inline-block;
+            background-position: 20px -1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="block">
+            <h2>本月计划及通告</h2>
+            <ul>
+                <li v-for="task in monthTasks">
+                    <task :data="task"></task>
+                </li>
+            </ul>
+        </div>
+        <div class="block">
+            <h2>本周计划及通告</h2>
+            <ul>
+                <li v-for="task in weekTasks">
+                    <task :data="task"></task>
+                </li>
+               
+            </ul>
+        </div>
+        <div class="block">
+            <h2>今日计划及通告</h2>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('task', {
+            props: ['data'],
+            computed: {
+              classObject: function(){
+                  console.log(this.data);
+                let rate = this.data.rate;
+                if(rate == 1) {
+                    return 'success'
+                }
+                if(rate >= 0.85) {
+                    return 'p5'
+                }
+                if(rate >= 0.7) {
+                    return 'p4'
+                }
+                if(rate >= 0.5) {
+                    return 'half'
+                }
+                if(rate > 0.2) {
+                    return 'p2'
+                }
+                if(rate > 0) {
+                    return 'p1'
+                }
+                if(rate == 0) {
+                    return 'zero'
+                } 
+              }  
+            },
+            template: '<div><span :class="classObject" class="icon"></span>{{data.name}} {{data.rate}}</div>'
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                monthTasks: [{
+                    name: '计划管理一期',
+                    rate: 1
+                }, {
+                    name: '目标管理一期',
+                    rate: 0.5
+                }, {
+                    name: '项目管理一期',
+                    rate: 0.9,
+                }, {
+                    name: '心理管理',
+                    rate: 0.8
+                }, {
+                    name: '个人问题重构',
+                    rate: 0.5
+                }, {
+                    name: '个人操作系统',
+                    rate: 0.5
+                }, {
+                    name: '高效能 判断决策',
+                    rate: 0.5
+                }, {
+                    name: '学会学习一期',
+                    rate: 0.2
+                }],
+                
+                weekTasks: [{
+                    name: '项目管理',
+                    rate: 0.9
+                }, {
+                    name: 'TBE的再审视?',
+                    rate: 0
+                }, {
+                    name: '目标管理',
+                    rate: 0
+                }, 
+                {
+                    name: '我的目标和计划',
+                    content: '我的长期目标肯定是去最好的company，才能收获最好的成长。我的阶段目标，我的方案是什么？有什么问题要解决，计划达成目标。',
+                    rate: 0
+                }, {
+                    name: '对自己的重构，成长系统',
+                    content: '过去的犯错，如何避免，应该培养的结构',
+                    rate: 0  
+                },{
+                    name: '日常的心理实践，实现目标',
+                    desc: '在日常中如何应用这些心理学的实践',
+                    content: '怦然心动的目标，分解为计划。积极思考, 想象成功的样子。 心理建设，一定很难，要付出120分的努力。每日的状态，提出挑战，心流，才能更积极，挑战激发自己，否则工作状态太懒散了，每天冲刺，375',
+                    rate: 0
+                }, {
+                    name: '我的plan系统',
+                    rate: 1,
+                },
+                {
+                    name: '---------',
+                    rate: '' 
+                },
+                {
+                    name: '技术中非理性',
+                    rate: 0.2
+                }, {
+                    name: '解决技术中思维',
+                    rate: 0
+                }, {
+                    name: '我认识的心理学',
+                    rate: 0.2
+                }],
+                
+                dayTasks: []
+            },
+            methods: {
+                getRateClass: function(rate){
+                    
+                }
+            }
+        });
+    </script>
+</body>
+</html>

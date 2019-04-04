@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        .block {
+            width: 33.3%;
+        }
+        ul {
+            list-style: none;
+        }
+        li {
+            height: 30px;
+            
+        }
+        /* li.done {
+            background: green;
+        } */
+        
+        .icon {
+            background: url('./Bitmap.png');
+            width: 19px;
+            height: 19px;
+            background-size: 172px 21px;
+            background-position: 0px -1px;
+            margin-right: 5px;
+            position: relative;
+            top: 3px;
+        }
+        .icon.zero {
+            display: inline-block;
+        }
+        .icon.p1 {
+            display: inline-block;
+            background-position: 147px -1px;
+        }
+        .icon.p2 {
+            display: inline-block;
+            background-position: 121px -1px;
+        }
+        .icon.half {
+            display: inline-block;
+            background-position: 96px -1px;
+        }
+        .icon.p4 {
+            display: inline-block;
+            background-position: 71px -1px;
+        }
+        .icon.p5 {
+            display: inline-block;
+            background-position: 45px -1px;
+        }
+        .icon.success {
+            display: inline-block;
+            background-position: 20px -1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="block">
+            <h2>本月计划及通告</h2>
+            <ul>
+                <li v-for="task in monthTasks">
+                    <task :data="task"></task>
+                </li>
+            </ul>
+        </div>
+        <div class="block">
+            <h2>本周计划及通告</h2>
+            <h3>工作内容</h3>
+            <ul>
+                <li v-for="task in weekTasks.work">
+                    <task :data="task"></task>
+                </li>
+            </ul>
+            <h3>学习内容</h3>
+            <ul>
+                <li v-for="task in weekTasks.learn">
+                    <task :data="task"></task>
+                </li>
+            </ul>
+            <h3>思考和回顾</h3>
+            <ul>
+                <li v-for="task in weekTasks.think">
+                    <task :data="task"></task>
+                </li>
+               
+            </ul>
+        </div>
+        <div class="block">
+            <h2>今日计划及通告</h2>
+        </div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        Vue.component('task', {
+            props: ['data'],
+            computed: {
+              classObject: function(){
+                  console.log(this.data);
+                let rate = this.data.rate;
+                if(rate == 1) {
+                    return 'success'
+                }
+                if(rate >= 0.85) {
+                    return 'p5'
+                }
+                if(rate >= 0.7) {
+                    return 'p4'
+                }
+                if(rate >= 0.5) {
+                    return 'half'
+                }
+                if(rate > 0.2) {
+                    return 'p2'
+                }
+                if(rate > 0) {
+                    return 'p1'
+                }
+                if(rate == 0) {
+                    return 'zero'
+                } 
+              }  
+            },
+            template: '<div><span :class="classObject" class="icon"></span>{{data.name}} {{data.rate}}</div>'
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                monthTasks: [
+                {
+                    name: '项目总结',
+                    rate: 0.1
+                },
+                {
+                    name: '学会画图',
+                    rate: 0.1
+                },
+                {
+                    name: '技术思维',
+                    rate: 0.1
+                },
+                {
+                    name: '前端工程化认知',
+                    rate: 0.1
+                },
+                {
+                    name: 'webpack',
+                    rate: 0.1
+                }, {
+                    name: 'react',
+                    rate: 0.1
+                }, 
+                {
+                    name: '解决问题的思考',
+                    rate: 0.1,
+                }, 
+                {
+                    name: '学会思考',
+                    rate: 0.8,
+                },
+                {
+                    name: '学会学习',
+                    rate: 0.2
+                }, {
+                    name: '信息源',
+                    rate: 0.9
+                }, {
+                    name: '逻辑思维',
+                    rate: 0.9
+                }, {
+                    name: '成长模型',
+                    rate: 0.9
+                }],
+                weekTasks: {
+                    "work": [
+                    {
+                        name: '业务破局',
+                        rate: 0,
+                        description: '需要与老板沟通下阶段的重点'
+                    },
+                    {
+                        name: '用户统计问题',
+                        rate: 0,
+                        description: ''
+                    }
+                    ],
+                    "learn": [
+                        
+                        {
+                            name: 'Fass认知',
+                            rate: 0.1,
+                            description: '感觉过去学习项目管理，如何写文章都太弱了'
+                        },
+                        {
+                            name: '我的梦想和目标',
+                            rate: 0,
+                            description: '《成功心理学》一书中的内容'
+                        },
+                        {
+                            name: 'webpack',
+                            rate: 0.7
+                        },
+                        {
+                            name: '项目总结',
+                            rate: 0.3
+                        },
+                        {
+                            name: '整理核心内容，提出刻意训练',
+                            rate: 0.1,
+                            description: '即学习能力，解决问题，逻辑思维，思考和思维模型'
+                        },
+                        {
+                            name: '学会学习',
+                            rate: 0.5,
+                            description: '感觉过去学习项目管理，如何写文章都太弱了'
+                        },
+                        {
+                            name: '重新思考路径',
+                            rate: 0.3,
+                            description: '独挡一面，解决困难问题。学习能力，快速完成新的系统。fass的事情，我能独立去做吗？独立去做一个nrails，独立做一个魔影。做好一个服务，委任到更重要位置。当下自己的路径该如何走？当下面临什么，要做什么？我的路由是什么？不想当老板的不是好工程师。我的短板是什么，写文章，项目管理，ATS，如果0做DEF工具。技术演进，下一步去哪里？未来做能力准备，自己写个webpack编译，自己写个React框架，自己写个。'
+                        },
+                        {
+                            name: '------',
+                            rate: 0,
+                            description: '感觉过去学习项目管理，如何写文章都太弱了'
+                        },
+                        {
+                            name: '前端工程化认知？',
+                            rate: 0.1
+                        },    
+                        {
+                            name: '画图',
+                            rate: 0.3
+                        },
+                        {
+                            name: '技术解决问题思路',
+                            rate: 0.1
+                        },
+                        {
+                            name: '面向对象的设计与分析',
+                            rate: 0.1,
+                            description: '自己薄弱的软件架构有关？'
+                        },
+                        {
+                            name: '软件架构设计',
+                            rate: 0.1,
+                            description: '自己薄弱的软件架构有关？'
+                        },
+                        {
+                            name: '积累模式',
+                            rate: 0.1,
+                            description: '自己薄弱的软件架构有关？'
+                        },
+                        {
+                            name: '错误的处理思维和思考?',
+                            rate: 0.1,
+                            description: '自己薄弱的软件架构有关？几种解法，我只检验结果是否否和我的要求，否则都算问题。'
+                        }
+                    ],
+                    "think": [
+                        {
+                            name: '事情的原点和终点',
+                            rate: 0.5
+                        },
+                        {
+                            name: '做什么，不做什么与计划',
+                            rate: 0.1
+                        },
+                        {
+                            name: '解决问题的高手',
+                            rate: 0.1
+                        },
+                        {
+                            name: '为什么没想到好的宣传文章格式？耗费时间',
+                            rate: 0.1
+                        },
+                        {
+                            name: '学习的回顾思考？',
+                            rate: 0.1
+                        },
+                        {
+                            name: '什么是重要的事，回顾过去',
+                            rate: 0.1,
+                            description: '对技术前瞻思考，打开了技术视野和思考的大门。对TBE二方工程，打开了项目管理。对webpack的那个学习，打开了学习深邃的东西。能够一直保持专业主义的责任心，对出现的问题都要负责到底，就不断提升和锻炼自己。即你把当下做好，会被委任到更重要的位置上。你本来就要符合你当下的格局或对你的要求。前端这块要想做好，要掌握哪些能力?不能太窄了。'
+                        }
+                    ]
+                },
+                dayTasks: []
+            },
+            methods: {
+                getRateClass: function(rate){
+                    
+                }
+            }
+        });
+    </script>
+</body>
+</html>
